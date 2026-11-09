@@ -18,4 +18,4 @@ flutter run
 GitHub Actions runs flutter analyze on every push.
 
 ## Team
-Umar (24SW138), Bilal Ahmed (24SW135), Mubashir Ahmed Khaskheli (24SW35), Asadullah Malik (24SW74)
+Umar (24SW138),Asadullah Malik (24SW74), Bilal Ahmed (24SW135), Mubashir Ahmed Khaskheli (24SW35)
