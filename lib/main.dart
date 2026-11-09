@@ -18,13 +18,19 @@ class _HomeState extends State<Home> {
   final title = TextEditingController();
   bool isAdmin = false;
   final states = ['Pending', 'In Progress', 'Resolved'];
+  final levels = ['Low', 'Medium', 'High'];
+  String urgency = 'Low';
 
   void msg(String t) =>
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(t)));
 
   void add() {
     if (title.text.trim().isEmpty) return msg('Title required');
-    box.add({'title': title.text.trim(), 'status': 'Pending'});
+    box.add({
+      'title': title.text.trim(),
+      'status': 'Pending',
+      'urgency': urgency,
+    });
     title.clear();
   }
 
@@ -34,6 +40,8 @@ class _HomeState extends State<Home> {
     r['status'] = states[(states.indexOf(r['status']) + 1) % 3];
     box.put(key, r);
   }
+
+  int rank(dynamic k) => levels.indexOf(box.get(k)['urgency'] ?? 'Low');
 
   @override
   Widget build(BuildContext context) {
@@ -54,22 +62,34 @@ class _HomeState extends State<Home> {
                 decoration: const InputDecoration(hintText: 'e.g. Broken AC'),
               ),
             ),
+            DropdownButton<String>(
+              value: urgency,
+              items: levels
+                  .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+                  .toList(),
+              onChanged: (v) => setState(() => urgency = v!),
+            ),
             IconButton(icon: const Icon(Icons.add), onPressed: add),
           ]),
         ),
         Expanded(
           child: ValueListenableBuilder(
             valueListenable: box.listenable(),
-            builder: (context, b, child) => ListView(
-              children: [
-                for (final k in b.keys)
-                  ListTile(
-                    title: Text(b.get(k)['title']),
-                    subtitle: Text(b.get(k)['status']),
-                    onTap: () => next(k),
-                  ),
-              ],
-            ),
+            builder: (context, b, child) {
+              final keys = b.keys.toList()
+                ..sort((x, y) => rank(y).compareTo(rank(x)));
+              return ListView(
+                children: [
+                  for (final k in keys)
+                    ListTile(
+                      title: Text(b.get(k)['title']),
+                      subtitle: Text(
+                          '${b.get(k)['status']} • ${b.get(k)['urgency'] ?? 'Low'}'),
+                      onTap: () => next(k),
+                    ),
+                ],
+              );
+            },
           ),
         ),
       ]),
