@@ -1,17 +1,21 @@
 # Campus Service Request System
 
-A new Flutter project.
+A Flutter + Hive mobile app where students report campus problems
+(e.g. broken AC) and an admin tracks them to resolution.
 
-## Getting Started
+## Features
+- Submit a request with title and urgency (Low / Medium / High)
+- List sorted by urgency, High first
+- Admin moves status: Pending -> In Progress -> Resolved
+- Students cannot change status (Admin only)
+- Data saved on the phone (works offline)
 
-This project is a starting point for a Flutter application.
+## Run
+flutter pub get
+flutter run
 
-A few resources to get you started if this is your first Flutter project:
+## CI
+GitHub Actions runs flutter analyze on every push.
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Team
+Umar (24SW138), Bilal Ahmed, Mubashir Ahmed Khaskheli, Asadullah Malik
